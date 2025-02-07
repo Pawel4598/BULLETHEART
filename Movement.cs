@@ -1,0 +1,98 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
+using UnityEngine;
+
+public class Movement : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+    public float jumpSpeed = 5f;
+    public bool isGrounded;
+    private float maxFallSpeed = 20f;
+    private float gravMult = 1.5f;
+    private bool isDashing = false;
+    public float dashSpeed = 3f;
+    public float dashDuration = 1f;
+    public float dashCooldown = 1f;
+    private float dashCooldownTimer;
+    private bool facingRight = true; 
+    private Rigidbody2D rb; 
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float moveInput = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        transform.Translate(new Vector2(moveInput, 0));
+
+        if (moveInput > 0 && !facingRight)
+            Flip();
+        else if (moveInput < 0 && facingRight)
+            Flip();
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        }
+
+        if (rb.velocity.y < 0)
+            rb.gravityScale = gravMult;
+        else
+            rb.gravityScale = 1f;
+
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, maxFallSpeed));
+
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && dashCooldownTimer <= 0)
+            StartCoroutine(Dash());
+
+        if (dashCooldownTimer > 0)
+            dashCooldownTimer -= Time.deltaTime;
+    }
+
+    private void FixedUpdate()
+    {
+        Vector2 groundCheckposition = new Vector2(transform.position.x, transform.position.y - 0.5f);
+        isGrounded = Physics2D.OverlapCircle(groundCheckposition, 0.1f, LayerMask.GetMask("Ground"));
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector2 groundCheckPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
+        Gizmos.DrawWireSphere(groundCheckPosition, 0.1f);
+    }
+
+    private IEnumerator Dash()
+    {
+        isDashing = true;
+        dashCooldownTimer = dashCooldown;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0;
+        float dashDirection = facingRight ? 1 : -1;
+        float originalVerticalVelocity = rb.velocity.y;
+
+        
+        rb.velocity = new Vector2(dashDirection * dashSpeed, originalVerticalVelocity);
+
+        
+        yield return new WaitForSeconds(dashDuration);
+
+        
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
+    }
+}
