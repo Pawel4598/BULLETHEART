@@ -17,6 +17,8 @@ public class RaycastShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        LookAtMouse();
+    
         if (Input.GetMouseButtonDown(0))
             ShootRay();
     }
@@ -43,5 +45,22 @@ public class RaycastShooting : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         lineRenderer.SetPosition(0, Vector3.zero);
         lineRenderer.SetPosition(1, Vector3.zero);
+    }
+    
+        private void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
+    }
+
+    private void LookAtMouse()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (mousePosition.x > transform.position.x && !facingRight)
+            Flip();
+        else if (mousePosition.x < transform.position.x && facingRight)
+            Flip();
     }
 }
