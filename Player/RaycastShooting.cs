@@ -7,6 +7,8 @@ public class RaycastShooting : MonoBehaviour
     public float rayDistance = 10f;
     public LayerMask hitLayers;
     public LineRenderer lineRenderer;
+    public PlayerDamage damageScript;
+    public bool facingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +20,7 @@ public class RaycastShooting : MonoBehaviour
     void Update()
     {
         LookAtMouse();
-    
+
         if (Input.GetMouseButtonDown(0))
             ShootRay();
     }
@@ -35,7 +37,10 @@ public class RaycastShooting : MonoBehaviour
         lineRenderer.SetPosition(1, hit.collider != null ? hit.point : rayOrigin + rayDirection *  rayDistance);
 
         if (hit.collider != null)
+        {
             Debug.Log("Hit: " + hit.collider.name);
+            damageScript.ApplyDamage(hit.collider.gameObject);
+        }
 
         StartCoroutine(DisableLineRenderer());
     }
@@ -46,8 +51,7 @@ public class RaycastShooting : MonoBehaviour
         lineRenderer.SetPosition(0, Vector3.zero);
         lineRenderer.SetPosition(1, Vector3.zero);
     }
-    
-        private void Flip()
+    private void Flip()
     {
         facingRight = !facingRight;
         Vector3 scaler = transform.localScale;
@@ -64,3 +68,4 @@ public class RaycastShooting : MonoBehaviour
             Flip();
     }
 }
+
