@@ -15,7 +15,6 @@ public class Movement : MonoBehaviour
     public float dashDuration = 0.05f;
     public float dashCooldown = 1f;
     private float dashCooldownTimer;
-    private bool facingRight = true; 
     private Rigidbody2D rb; 
 
     // Start is called before the first frame update
@@ -36,16 +35,16 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
         }
 
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < 0 && !isDashing)
             rb.gravityScale = gravMult;
-        else
+        else if (!isDashing)
             rb.gravityScale = 1f;
 
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, maxFallSpeed));
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
 
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && dashCooldownTimer <= 0)
-            StartCoroutine(Dash());
+            StartCoroutine(Dash(moveInput));
 
         if (dashCooldownTimer > 0)
             dashCooldownTimer -= Time.deltaTime;
@@ -64,23 +63,24 @@ public class Movement : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheckPosition, 0.1f);
     }
 
-    private IEnumerator Dash()
+    private IEnumerator Dash(float moveInput)
     {
         isDashing = true;
         dashCooldownTimer = dashCooldown;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0;
-        float dashDirection = Mathf.Sign(rb.velocity.x);
+        float dashDirection = moveInput > 0 ? 1 : -1;
         float originalVerticalVelocity = rb.velocity.y;
 
         
-        rb.velocity = new Vector2(dashDirection * dashSpeed, originalVerticalVelocity);
+        rb.velocity = new Vector2(dashDirection * dashSpeed, 0);
 
         
         yield return new WaitForSeconds(dashDuration);
 
         
         rb.gravityScale = originalGravity;
+        rb.velocity = new Vector2(rb.velocity.x, originalVerticalVelocity);
         isDashing = false;
-    }
+    }  
 }
