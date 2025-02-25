@@ -11,8 +11,8 @@ public class Movement : MonoBehaviour
     private float maxFallSpeed = 20f;
     private float gravMult = 1.5f;
     private bool isDashing = false;
-    public float dashSpeed = 3f;
-    public float dashDuration = 1f;
+    public float dashSpeed = 6f;
+    public float dashDuration = 0.05f;
     public float dashCooldown = 1f;
     private float dashCooldownTimer;
     private bool facingRight = true; 
