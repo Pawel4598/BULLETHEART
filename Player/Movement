@@ -27,7 +27,6 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LookAtMouse();
 
         float moveInput = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
         transform.Translate(new Vector2(moveInput, 0));
@@ -83,22 +82,5 @@ public class Movement : MonoBehaviour
         
         rb.gravityScale = originalGravity;
         isDashing = false;
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        Vector3 scaler = transform.localScale;
-        scaler.x *= -1;
-        transform.localScale = scaler;
-    }
-
-    private void LookAtMouse()
-    {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (mousePosition.x > transform.position.x && !facingRight)
-            Flip();
-        else if (mousePosition.x < transform.position.x && facingRight)
-            Flip();
     }
 }
