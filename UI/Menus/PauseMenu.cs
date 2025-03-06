@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public GameObject UIScreen;
     public Button resume;
     public Button quitGame;
     public Button loadMenu;
@@ -19,6 +20,7 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UIScreen.SetActive(true);
         pauseMenu.SetActive(false);
     }
 
@@ -36,6 +38,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        UIScreen.SetActive(true);
         pauseMenu.SetActive(false);
         Time.timeScale = 1.0f;
         isPaused = false;
@@ -43,7 +46,7 @@ public class PauseMenu : MonoBehaviour
 
     public void QTM()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 
     public void QuitGame()
@@ -53,6 +56,7 @@ public class PauseMenu : MonoBehaviour
     
     public void PauseGame()
     {
+        UIScreen.SetActive(false);
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
