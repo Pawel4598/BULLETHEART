@@ -7,7 +7,6 @@ public void QuitGame()
 }
 
 And replace it with
-
 public void QuitToMenu()
 {
   SceneManager.LoadScene("(enter your menu scene here", LoadSceneMode.Single)
