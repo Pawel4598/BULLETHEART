@@ -1,0 +1,14 @@
+For The Death Screen I just used the main menu code but if you want to switch quit game to quit to menu then
+
+Get Rid of 
+public void QuitGame()
+{
+  EdittorApplication.ExitPlaymode;
+}
+
+And replace it with
+
+public void QuitToMenu()
+{
+  SceneManager.LoadScene("(enter your menu scene here", LoadSceneMode.Single)
+}
