@@ -52,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single); 
+        SceneManager.LoadScene("DeathScreen", LoadSceneMode.Single); 
     }
 }
 
