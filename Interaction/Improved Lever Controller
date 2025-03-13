@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class LeverController : MonoBehaviour
 {
-     public GameObject door;
-     public bool inRange;
-     public KeyCode interactKey;
+    public GameObject door;
+    public bool inRange;
+    public KeyCode interactKey;
 
-     void Start()
-     {
-         inRange = false;
-     }
+    void Start()
+    {
+        inRange = false;
+    }
 
-     void Update()
-     {
-          if (InRange = true && GetKeyDown(interactKey))
-             door.setActive(false);
-     }
+    void Update()
+    {
+        if (inRange = true && Input.GetKeyDown(interactKey))
+            door.SetActive(false);
+    }
 
-     private void OnTriggerEnter2D(Collider2D other)
-     {
-          if (other.transform.gameObject.tag == "Player")
-             InRange = true;
-     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform.gameObject.tag == "Player")
+            inRange = true;
+    }
 
-     private void OnTriggerEnter2D(Collider2D other)
-     {
-          if (other.transform.gameObject.tag = "Player")
-             InRange = false;
-     }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.transform.gameObject.tag == "Player")
+            inRange = false;
+    }
 }
