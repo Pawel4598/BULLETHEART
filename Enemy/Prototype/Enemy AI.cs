@@ -54,4 +54,10 @@ public class EnemyAI : MonoBehaviour
             Debug.Log("Player took " + damageAmount + " damage");
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+       if (other.transform.gameObject.tag == "TransitionPoint")
+           Destroy(gameObject);
+    }
 }
