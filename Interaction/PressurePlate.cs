@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Buttons : MonoBehaviour
+public class PressurePlate : MonoBehaviour
 {
     public GameObject door;
     public float timer = 5f;
