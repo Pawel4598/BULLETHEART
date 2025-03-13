@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public GameObject door;
     public LeverController lever;
     // Start is called before the first frame update
     void Start()
     {
-        door.SetActive(true); 
+        gameObject.SetActive(true); 
     }
 
     // Update is called once per frame
@@ -17,7 +16,7 @@ public class Door : MonoBehaviour
     {
          if(lever.isOpen)
         {
-            door.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }
