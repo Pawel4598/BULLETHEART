@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    private HealthManager healthManager;
     public float maxHealth = 100f;
     public float currentHealth;
     public HealthBar healthBar;
@@ -17,10 +18,14 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
-
+        healthManager = HealthManager.Instance;
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if(healthBar != null )
+        {
+            healthBar.SetMaxHealth(healthManager.maxHealth);
+            healthBar.SetHealth(healthManager.currentHealth);
+        }
     }
 
     // Update is called once per frame
@@ -31,14 +36,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-        currentHealth -= damageAmount;
-        Debug.Log(gameObject.name + damageAmount + currentHealth);
-
+        healthManager.TakeDamage(damageAmount);
         StartCoroutine(FlashRed());
 
-        healthBar.SetHealth(currentHealth); 
+        if (healthBar != null)
+            healthBar.SetHealth(healthManager.currentHealth);
 
-        if (currentHealth <= 0)
+        if (healthManager.currentHealth <= 0)
             Die();
     }
 
@@ -53,6 +57,14 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         SceneManager.LoadScene("DeathScreen", LoadSceneMode.Single); 
+    }
+
+    public void TakeHeal(float healAmount)
+    {
+        healthManager.Heal(healAmount);
+
+        if(healthBar != null )
+            healthBar.SetHealth(healthManager.currentHealth);
     }
 }
 
