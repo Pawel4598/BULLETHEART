@@ -8,7 +8,7 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 5f;
     public float attackRange = 1f;
     public float attackCooldown = 1f;
-    public int damageAmount = 10;
+    public float damageAmount = 10;
 
     private Transform player;
     private float lastAttackTime;
@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            if(Time.time >= lastAttackTime + attackCooldown)
+            if (Time.time >= lastAttackTime + attackCooldown)
             {
                 AttackPlayer();
                 lastAttackTime = Time.time;
@@ -55,9 +55,9 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-       if (other.transform.gameObject.tag == "TransitionPoint")
-           Destroy(gameObject);
+        if (other.transform.gameObject.tag == "TransitionPoint")
+            Destroy(gameObject);
     }
 }
