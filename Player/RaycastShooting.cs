@@ -9,6 +9,8 @@ public class RaycastShooting : MonoBehaviour
     public LineRenderer lineRenderer;
     public PlayerDamage damageScript;
     public bool facingRight = true;
+    public GameObject gun;
+    public float damageAmount = 25f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +29,7 @@ public class RaycastShooting : MonoBehaviour
 
     void ShootRay()
     {
-        Vector2 rayOrigin = transform.position;
+        Vector2 rayOrigin = gun.transform.position;
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 rayDirection = (mousePosition - rayOrigin).normalized;
 
@@ -67,5 +69,13 @@ public class RaycastShooting : MonoBehaviour
         else if (mousePosition.x < transform.position.x && facingRight)
             Flip();
     }
+
+    public void ApplyDamage(GameObject target)
+    {
+        EnemyHealth targetHealth = target.GetComponent<EnemyHealth>();
+        if (targetHealth != null)
+            targetHealth.TakeDamage(damageAmount);
+    }
 }
+
 
