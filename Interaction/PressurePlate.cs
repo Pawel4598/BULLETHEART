@@ -6,18 +6,7 @@ public class PressurePlate : MonoBehaviour
 {
     public GameObject door;
     public float timer = 5f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-          
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    private Coroutine closeDoorCoroutine;
 
     private IEnumerator CloseDoor()
     {
@@ -28,13 +17,20 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.gameObject.tag == "Player") 
+        if (other.transform.gameObject.tag == "Player")
+        {
             door.SetActive(false);
+            if(closeDoorCoroutine != null)
+            {
+                StopCoroutine(closeDoorCoroutine);
+                closeDoorCoroutine = null;
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.transform.gameObject.tag == "Player")
-            StartCoroutine(CloseDoor());
+            closeDoorCoroutine = StartCoroutine(CloseDoor());
     }
 }
