@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class DeathScreen : MonoBehaviour
 {
     public Button pg;
     public Button qg;
@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        HealthManager.Instance.ResetHealth();
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 
