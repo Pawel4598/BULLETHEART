@@ -11,9 +11,6 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject UIScreen;
-    public Button resume;
-    public Button quitGame;
-    public Button loadMenu;
 
     bool isPaused;
 
@@ -46,6 +43,7 @@ public class PauseMenu : MonoBehaviour
 
     public void QTM()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 
@@ -62,3 +60,4 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
     }
 }
+
