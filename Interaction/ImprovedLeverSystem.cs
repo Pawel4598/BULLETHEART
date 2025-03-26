@@ -15,7 +15,7 @@ public class LeverController : MonoBehaviour
 
     void Update()
     {
-        if (inRange = true && Input.GetKeyDown(interactKey))
+        if (inRange == true && Input.GetKeyDown(interactKey))
             door.SetActive(false);
     }
 
